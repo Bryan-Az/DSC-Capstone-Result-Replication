@@ -2,7 +2,7 @@ import tensorflow
 import tensorflow.keras as keras
 import numpy as np
 import uproot
-from utils import to_np_array, get_file_handler
+from utils import get_file_handler, to_np_array
 
 
 class DataGenerator(tensorflow.keras.utils.Sequence):
