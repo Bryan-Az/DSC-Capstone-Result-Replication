@@ -1,0 +1,4 @@
+{
+    "dockerhub-id": "baambriz/q1_code:latest",
+    "build-script": "python run.py"
+}
