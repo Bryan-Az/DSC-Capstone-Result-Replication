@@ -1,3 +1,8 @@
+import sys
+
+#adding config path for importing GraphDataset class
+sys.path.insert(0, "../config")
+
 import os.path as osp
 import torch
 from torch_geometric.data import Dataset, Data
@@ -10,7 +15,7 @@ from pathlib import Path
 import yaml
 from tqdm.notebook import tqdm
 import awkward as ak
-from utils import get_file_handler
+from config.utils import get_file_handler
 
 
 class GraphDataset(Dataset):
@@ -148,3 +153,5 @@ if __name__ == "__main__":
     gdata = GraphDataset(args.dataset, features, labels, spectators,
                          n_events=args.n_events,
                          n_events_merge=args.n_events_merge)
+
+

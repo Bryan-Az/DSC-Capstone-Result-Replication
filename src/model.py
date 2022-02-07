@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
+import sys
+
 import tensorflow.keras as keras
 import numpy as np
 from sklearn.metrics import roc_curve, auc
 import matplotlib.pyplot as plt
 import uproot
-import utils
 import tensorflow
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Dense, BatchNormalization, GlobalAveragePooling1D
@@ -16,11 +18,21 @@ import pandas as pd
 import os
 import yaml
 
-with open('./config/definitions.yml') as file:
+# +
+fileDir = os.path.dirname(os.path.realpath('__definitions.yml__'))
+
+filename = os.path.join(fileDir, './config/definitions.yml')
+
+filename = os.path.abspath(filename)
+# -
+
+filename
+
+with open(filename) as file:
     # The FullLoader parameter handles the conversion from YAML
     # scalar values to Python the dictionary format
     definitions = yaml.load(file, Loader=yaml.FullLoader)
-    
+
 features = definitions['features']
 spectators = definitions['spectators']
 labels = definitions['labels']
@@ -30,58 +42,66 @@ nspectators = definitions['nspectators']
 nlabels = definitions['nlabels']
 ntracks = definitions['ntracks']
 
-#Deep set Neural network
-def DSNN(train_generator, vtrain_generator, test_generator): 
-    
-    #DSNN part
-    # define Deep Sets model with Dense Keras layer
-    inputs = Input(shape=(ntracks, nfeatures,), name='input')  
-    x = BatchNormalization(name='bn_1')(inputs)
-    x = Dense(64, name='dense_1', activation='relu')(x)
-    x = Dense(32, name='dense_2', activation='relu')(x)
-    x = Dense(32, name='dense_3', activation='relu')(x)
-    # sum over tracks
-    x = GlobalAveragePooling1D(name='pool_1')(x)
-    x = Dense(100, name='dense_4', activation='relu')(x)
-    outputs = Dense(nlabels, name='output', activation='softmax')(x)
-    keras_model_deepset = Model(inputs=inputs, outputs=outputs)
-    keras_model_deepset.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-    early_stopping = EarlyStopping(monitor='val_loss', patience=5)
-    reduce_lr = ReduceLROnPlateau(patience=5, factor=0.5)
-    model_checkpoint = ModelCheckpoint('keras_model_deepset_best.h5', monitor='val_loss', save_best_only=True)
-    callbacks = [early_stopping, model_checkpoint, reduce_lr]
+import torch
+import torch.nn as nn
+import torch_geometric
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+from tqdm.notebook import tqdm
+import numpy as np
 
-    # fit keras model
-    history_deepset = keras_model_deepset.fit(train_generator, 
-                                              validation_data=vtrain_generator, 
-                                              steps_per_epoch=len(train_generator), 
-                                              validation_steps=len(vtrain_generator),
-                                              max_queue_size=5,
-                                              epochs=20, 
-                                              shuffle=False,
-                                              callbacks=callbacks, 
-                                              verbose=0)
-    # reload best weights
-    keras_model_deepset.load_weights('keras_model_deepset_best.h5')
+# +
+inputs = 48
+hidden = 128
+outputs = 1
 
-    def find_nearest(array,value):
-        idx = (np.abs(array-value)).argmin()
-        return idx, array[idx]
-    # run model inference on test data set
+from torch_geometric.nn import GENConv
+from torch.nn import Sequential as Seq, Linear as Lin, ReLU, BatchNorm1d
+from torch_scatter import scatter_mean
 
-    predict_array_deepset = []
-    label_array_test = []
+class GENConv_Classifier(nn.Module):
 
-    for t in test_generator:
-        label_array_test.append(t[1])
-        predict_array_deepset.append(keras_model_deepset.predict(t[0]))
-        
+    def __init__(self, width = hidden, n_inputs = inputs):
+        super(GENConv_Classifier, self).__init__()
+        self.width = width
+        self.act = nn.ReLU
 
-    predict_array_deepset = np.concatenate(predict_array_deepset, axis=0)
-    label_array_test = np.concatenate(label_array_test, axis=0)
+        # Initial linear layers
+        self.nn1 = nn.Sequential(
+            self.act(),
+            nn.Linear(n_inputs, width),
+            self.act(),
+            nn.Linear(width, width),
+            self.act(),
+            nn.Linear(width, width)                   
+        )
+        # Generalized Convolutional layer
+        self.conv = GENConv(width, width, num_layers=2, t=1, learn_t=True)
 
-    preds = pd.DataFrame(predict_array_deepset)
-    truth_label = pd.DataFrame(label_array_test)
-    output = pd.concat([preds, truth_label], 1)
-    output.columns = ['hbb_prediction', 'qcd prediction', 'hbb_label', 'qcd_label']
-    return output
+        # Pre-final linear layers
+        self.nn2 = nn.Sequential(
+            nn.Linear(n_inputs, width),
+            self.act(),
+            nn.Linear(width, width),
+            self.act(),
+            nn.Linear(width, width),
+            self.act(),
+            nn.Linear(width, width),
+        )
+        self.bn = BatchNorm1d(n_inputs)
+        # output layer
+        self.output = nn.Linear(width, outputs)
+
+    def forward(self, X, edge_index, batch):
+        #Normalization → ReLU → GraphConv → Addition
+        x = self.bn(X)
+        # input layer
+        x1 = self.nn1(x)
+        #GENConv
+        x2 = self.conv(x1, edge_index)
+        x3 = scatter_mean(x, batch, dim=0)
+        # hidden layers
+        x4 = self.nn2(x3)
+
+        # output layer
+        x = self.output(x4)
+        return x
