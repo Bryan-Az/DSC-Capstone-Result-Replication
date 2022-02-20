@@ -1,7 +1,15 @@
+# +
 import sys
+import os
 
-#adding config path for importing GraphDataset class
-sys.path.insert(0, "../config")
+curr_dir = sys.path[0]
+
+parent_dir = os.path.abspath(os.path.join(curr_dir, os.pardir))
+
+sys.path.insert(0, parent_dir)
+# -
+
+sys.path
 
 import os.path as osp
 import torch

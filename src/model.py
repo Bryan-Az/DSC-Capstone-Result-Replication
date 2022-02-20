@@ -18,17 +18,7 @@ import pandas as pd
 import os
 import yaml
 
-# +
-fileDir = os.path.dirname(os.path.realpath('__definitions.yml__'))
-
-filename = os.path.join(fileDir, './config/definitions.yml')
-
-filename = os.path.abspath(filename)
-# -
-
-filename
-
-with open(filename) as file:
+with open('./config/definitions.yml') as file:
     # The FullLoader parameter handles the conversion from YAML
     # scalar values to Python the dictionary format
     definitions = yaml.load(file, Loader=yaml.FullLoader)

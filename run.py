@@ -63,7 +63,7 @@ def main(targets):
         y_test = np.concatenate(y_test)
         y_predict = np.concatenate(y_predict)
         output = pd.Series(y_predict[:,0])
-        output.to_csv('GENConv_predictions.csv')
+        output.to_csv('GENConv_predictions.csv', index = False)
         
     
     print("Predictions written from pd.Series to GENConv_predictions.csv")

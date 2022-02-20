@@ -1,3 +1,16 @@
+# +
+import sys
+import os
+
+curr_dir = sys.path[0]
+
+parent_dir = os.path.abspath(os.path.join(curr_dir, os.pardir))
+
+sys.path.insert(0, parent_dir)
+# -
+
+sys.path
+
 import tensorflow
 import tensorflow.keras as keras
 import numpy as np
