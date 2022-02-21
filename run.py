@@ -62,7 +62,7 @@ def main(targets):
             y_test.append(data.y.cpu().numpy())
         y_test = np.concatenate(y_test)
         y_predict = np.concatenate(y_predict)
-        output = pd.Series(y_predict[:,0])
+        output = pd.DataFrame({'hbb_prediction':y_predict[:,0], 'hbb_label': y_test[:,1]})
         output.to_csv('GENConv_predictions.csv', index = False)
         
     

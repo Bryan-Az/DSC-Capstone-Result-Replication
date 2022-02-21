@@ -24,6 +24,7 @@ def main(targets):
 
     # make the data target
     train_generator, vtrain_generator, test_generator = get_data(**data_cfg)
+    
     if 'test' in targets:
         output_dsnn = DSNN(train_generator, vtrain_generator, test_generator)
         output_fcnn = FCNN(train_generator, vtrain_generator, test_generator)

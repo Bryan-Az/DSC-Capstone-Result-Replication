@@ -85,7 +85,7 @@ def FCNN(train_generator, vtrain_generator, test_generator):
     preds = pd.DataFrame(predict_array_fcnn)
     truth_label = pd.DataFrame(label_array_test)
     output = pd.concat([preds, truth_label], 1)
-    output.columns = ['hbb_prediction', 'qcd prediction', 'hbb_label', 'qcd_label']
+    output.columns = ['hbb_prediction', 'qcd_prediction', 'hbb_label', 'qcd_label']
     return output
 
 
@@ -142,5 +142,5 @@ def DSNN(train_generator, vtrain_generator, test_generator):
     preds = pd.DataFrame(predict_array_deepset)
     truth_label = pd.DataFrame(label_array_test)
     output = pd.concat([preds, truth_label], 1)
-    output.columns = ['hbb_prediction', 'qcd prediction', 'hbb_label', 'qcd_label']
+    output.columns = ['hbb_prediction', 'qcd_prediction', 'hbb_label', 'qcd_label']
     return output

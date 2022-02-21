@@ -60,5 +60,5 @@ def read_test(fp):
     
     test_generator = DataGenerator(file_set, features, labels, spectators, batch_size=1024, n_dim=ntracks, 
                                remove_mass_pt_window=True, 
-                               remove_unlabeled=True)
+                               remove_unlabeled=True, max_entry = 4500)
     return test_generator
