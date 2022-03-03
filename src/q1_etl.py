@@ -45,7 +45,7 @@ def read_train(fp):
     
     train_generator = DataGenerator(file_set, features, labels, spectators, batch_size=1024, n_dim=ntracks, 
                                 remove_mass_pt_window=False, 
-                                remove_unlabeled=True, max_entry=8000)
+                                remove_unlabeled=True, max_entry=15000)
 
     return train_generator
 
@@ -60,5 +60,5 @@ def read_test(fp):
     
     test_generator = DataGenerator(file_set, features, labels, spectators, batch_size=1024, n_dim=ntracks, 
                                remove_mass_pt_window=True, 
-                               remove_unlabeled=True, max_entry = 4500)
+                               remove_unlabeled=True, max_entry = 15000)
     return test_generator

@@ -53,11 +53,11 @@ def load_graph(local = True, train = True):
         file_names_test = ['root://eospublic.cern.ch//eos/opendata/cms/datascience/HiggsToBBNtupleProducerTool/HiggsToBBNTuple_HiggsToBB_QCD_RunII_13TeV_MC/test/ntuple_merged_0.root']
     
     if train:
-        graph_dataset = GraphDataset('gdata_train', features, labels, spectators, n_events=1000, n_events_merge=1, 
+        graph_dataset = GraphDataset('gdata_train', features, labels, spectators, n_events=8000, n_events_merge=1, 
                                      file_names=file_names)
         return graph_dataset
     else:
-        test_dataset = GraphDataset('gdata_test', features, labels, spectators, n_events=2000, n_events_merge=1, 
+        test_dataset = GraphDataset('gdata_test', features, labels, spectators, n_events_merge=1, 
                                      file_names=file_names_test)
         return test_dataset
 
@@ -109,9 +109,6 @@ def read_test(graph):
     test_loader = DataListLoader(graph, batch_size=batch_size, pin_memory=True, shuffle=False)
     test_loader.collate_fn = collate
     return test_loader
-
-
-read_test(load_graph(train=False))
 
 
 # ## TODO: Enable the training and loading of data

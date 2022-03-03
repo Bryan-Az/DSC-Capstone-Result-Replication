@@ -57,7 +57,7 @@ def main(targets):
         y_predict = []
         for i,data in t:
             data = data.to(device)    
-            batch_output = model(data.x, data.edge_index, data.batch)    
+            batch_output = model(data.x, data.edge_index, data.batch)
             y_predict.append(batch_output.detach().cpu().numpy())
             y_test.append(data.y.cpu().numpy())
         y_test = np.concatenate(y_test)
