@@ -55,14 +55,17 @@ def main(targets):
         t = tqdm(enumerate(test_loader),total=test_samples/batch_size)
         y_test = []
         y_predict = []
+        spec_gnn = []
         for i,data in t:
             data = data.to(device)    
             batch_output = model(data.x, data.edge_index, data.batch)
+            spec_gnn.append(data.u)
             y_predict.append(batch_output.detach().cpu().numpy())
             y_test.append(data.y.cpu().numpy())
         y_test = np.concatenate(y_test)
         y_predict = np.concatenate(y_predict)
-        output = pd.DataFrame({'hbb_prediction':y_predict[:,0], 'hbb_label': y_test[:,1]})
+        spec_gnn = np.concatenate(spec_gnn, axis=0)
+        output = pd.DataFrame({'hbb_prediction':y_predict[:,0], 'truth_hbb_label': y_test[:,1], 'truth_qcd_label': y_test[:, 0], 'Mass':spec_gnn[:,0], 'Momentum_pt': spec_gnn[:,1]})
         output.to_csv('GENConv_predictions.csv', index = False)
         
     

@@ -73,19 +73,21 @@ def FCNN(train_generator, vtrain_generator, test_generator):
 
     predict_array_fcnn = []
     label_array_test = []
-
+    spec_array_test = []
     for t in test_generator:
-        label_array_test.append(t[1])
+        label_array_test.append(t[1][0])
+        spec_array_test.append(t[1][1])
         predict_array_fcnn.append(keras_model_dense.predict(t[0]))
         
-
+    spec_array_test = np.concatenate(spec_array_test, axis=0)
     predict_array_fcnn = np.concatenate(predict_array_fcnn, axis=0)
     label_array_test = np.concatenate(label_array_test, axis=0)
 
     preds = pd.DataFrame(predict_array_fcnn)
     truth_label = pd.DataFrame(label_array_test)
-    output = pd.concat([preds, truth_label], 1)
-    output.columns = ['hbb_prediction', 'qcd_prediction', 'hbb_label', 'qcd_label']
+    mass_pt = pd.DataFrame(spec_array_test)
+    output = pd.concat([preds, truth_label, mass_pt], 1)
+    output.columns = ['hbb_prediction', 'qcd_prediction', 'truth_hbb_label', 'truth_qcd_label', 'Mass', 'Momentum_pt']
     return output
 
 
@@ -130,17 +132,20 @@ def DSNN(train_generator, vtrain_generator, test_generator):
 
     predict_array_deepset = []
     label_array_test = []
-
+    spec_array_test = []
     for t in test_generator:
-        label_array_test.append(t[1])
+        label_array_test.append(t[1][0])
         predict_array_deepset.append(keras_model_deepset.predict(t[0]))
-        
+        spec_array_test.append(t[1][1])
 
+    spec_array_test = np.concatenate(spec_array_test, axis=0)
     predict_array_deepset = np.concatenate(predict_array_deepset, axis=0)
     label_array_test = np.concatenate(label_array_test, axis=0)
-
+    
     preds = pd.DataFrame(predict_array_deepset)
     truth_label = pd.DataFrame(label_array_test)
-    output = pd.concat([preds, truth_label], 1)
-    output.columns = ['hbb_prediction', 'qcd_prediction', 'hbb_label', 'qcd_label']
+    mass_pt = pd.DataFrame(spec_array_test)
+    
+    output = pd.concat([preds, truth_label, mass_pt], 1)
+    output.columns = ['hbb_prediction', 'qcd_prediction', 'truth_hbb_label', 'truth_qcd_label', 'Mass', 'Momentum_pt']
     return output
