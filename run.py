@@ -65,7 +65,7 @@ def main(targets):
         y_test = np.concatenate(y_test)
         y_predict = np.concatenate(y_predict)
         spec_gnn = np.concatenate(spec_gnn, axis=0)
-        output = pd.DataFrame({'hbb_prediction':y_predict[:,0], 'truth_hbb_label': y_test[:,1], 'truth_qcd_label': y_test[:, 0], 'Mass':spec_gnn[:,0], 'Momentum_pt': spec_gnn[:,1]})
+        output = pd.DataFrame({'qcd_prediction':y_predict[:,0],'hbb_prediction': y_predict[:,1],'truth_hbb_label': y_test[:,1], 'truth_qcd_label': y_test[:, 0], 'Mass':spec_gnn[:,0], 'Momentum_pt': spec_gnn[:,1]})
         output.to_csv('GENConv_predictions.csv', index = False)
         
     

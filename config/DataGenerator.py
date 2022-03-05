@@ -15,7 +15,7 @@ import numpy as np
 import uproot
 import sys
 import os
-from utils import get_file_handler, to_np_array
+from config.utils import get_file_handler, to_np_array
 
 class DataGenerator(tensorflow.keras.utils.Sequence):
     'Generates data for Keras'

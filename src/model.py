@@ -42,7 +42,7 @@ import numpy as np
 # +
 inputs = 48
 hidden = 128
-outputs = 1
+outputs = 2
 
 from torch_geometric.nn import GENConv
 from torch.nn import Sequential as Seq, Linear as Lin, ReLU, BatchNorm1d
@@ -73,13 +73,13 @@ class GENConv_Classifier(nn.Module):
             self.act(),
             nn.Linear(width, width),
             self.act(),
-            nn.Linear(width, width),
+            nn.Linear(width, int(width / 2)),
             self.act(),
-            nn.Linear(width, width),
+            nn.Linear(int(width / 2), int(width / 4)),
         )
         self.bn = BatchNorm1d(n_inputs)
         # output layer
-        self.output = nn.Linear(width, outputs)
+        self.output = nn.Linear(int(width / 4), outputs)
 
     def forward(self, X, edge_index, batch):
         #Normalization → ReLU → GraphConv → Addition

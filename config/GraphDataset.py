@@ -25,7 +25,7 @@ from pathlib import Path
 import yaml
 from tqdm.notebook import tqdm
 import awkward as ak
-from utils import get_file_handler
+from . utils import get_file_handler
 
 
 class GraphDataset(Dataset):
