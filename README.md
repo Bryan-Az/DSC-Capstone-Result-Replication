@@ -3,5 +3,11 @@
 
 Website code is included in the 'docs' directory of this repo.
 
+To run code, create docker pod using jmduarte/capstone-particle-physics-domain:latest and group key to access data folder.
 
+Then clone this repo and cd into root folder.
+
+In the root folder, you can use python run.py [train, test] to produce a dataframe with predictions and other data useful for visualization in the src/analysis/evaluation.ipynb notebook. 
+
+To visualize, you can simply run all cells in the eval. notebook.
 
