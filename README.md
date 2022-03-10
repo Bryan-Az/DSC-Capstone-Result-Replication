@@ -3,7 +3,7 @@
 
 Website code is included in the 'docs' directory of this repo.
 
-To run code, create docker pod using jmduarte/capstone-particle-physics-domain:latest and group key to access data folder.
+To run the GENConv GNN model, create docker pod using jmduarte/capstone-particle-physics-domain:latest and group key to access data folder.
 
 Then clone this repo and cd into root folder.
 
