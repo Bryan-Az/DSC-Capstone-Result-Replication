@@ -1,6 +1,5 @@
 {
     "train_file": "ntuple_merged_10.root",
-    "vtrain_file":"ntuple_merged_11.root",
     "test_file": "ntuple_merged_0.root"
     
 }
