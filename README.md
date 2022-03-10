@@ -11,4 +11,6 @@ In the root folder, you can use python run.py [train, test] to produce a datafra
 
 To visualize, you can simply run all cells in the eval. notebook.
 
-Pls. ignore the loading bar in terminal it doesn't mean anything - but training it will take a while.
+Pls. ignore the loading bar in terminal it doesn't mean anything - but training it will take a while. 
+
+There is really no need to run the training since the testing script loads presaved weights (stored in github) to initialize the pre-trained model for testing.  
