@@ -1,6 +1,8 @@
 ## DSC-Capstone-Result-Replication
 ### DSC180A Quarter 1 and 2
 
+Website Link: http://www.bambriz.me/wp-content/uploads/2022/03/dsc180b.html
+
 Website code is included in the 'docs' directory of this repo.
 
 To run the GENConv GNN model, create docker pod using jmduarte/capstone-particle-physics-domain:latest and group key to access data folder.
