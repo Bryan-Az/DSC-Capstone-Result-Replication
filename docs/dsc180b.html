@@ -1,0 +1,199 @@
+<!DOCTYPE HTML>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="description" content="DSC180 Visual representation">
+      <meta name="keywords" content="HTML">
+      <meta name="author" content="Rui Lu, Bryan Ambriz and Charul Sharma">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>DSC180B Particle Physics Domain Rep</title>
+   <script async src='/cdn-cgi/bm/cv/669835187/api.js'></script></head>
+   <style>
+	body {background-color: black;
+		  background-image: url('https://github.com/Bryan-Az/DSC-Capstone-Result-Replication/blob/main/docs/colors.jpg?raw=true');}
+	a 	 {color: white;}
+	h1   {color: white;}
+	h2   {color: white;}
+	h3	 {color: white; text-align: left; text-indent: 200px}
+	p    {color: black;
+		  background-color: moccasin;
+		  border: 2px solid orange;
+		  width: 1200px;
+		  margin:20; 
+		  text-indent: 100px;
+		  text-align: left;
+		  font-size: 18px;
+		  line-height: 2;}
+	</style>
+   <body>
+       <center>
+        <div class='navigation-bar'>
+            <div class='nav-inner'>
+                <a class="brand">Particle Physics Result Replication Project</a>
+            </div>
+        </div>
+        <div class="page-header">
+            <h2>Particle Physics Domain Result Replication Project</h2>
+        </div>
+        <div class="abs">
+            <h2>Abstract</h2>
+            <p>In the field of particle physics, there are a myriad of methodologies for model-making decisions which we need to balance. Due to the properties of the particle-tracking (like the incredibly short lifetime of particles), the process of distinguishing jets and particles requires some helps from artificial intelligence or deep learning. Our project utilized elements of Graph Neural Networks, including convolutional layers such as EdgeConv and GENConv. In Quarter 1 of our project, we looked at how the Deep Sets Neural Network (DSNN) & Fully-connected Neural Network (FCNN) perform using a Reciever-Operating Characteristic (ROC) curve and AUC% (Area Under the Curve) of the aforementioned ROC. In this quarter (Q2), we had hoped to extend and out-perform the previous models utilizing a graph neural network, which we believed was able to capture the inherent structure of the data generating process (DGP), aka. the particle collisions. A ROC curve helps visualize the false positive and true positive rate of our model, while the AUC provides a point estimate that tells us how our model is doing overall. We also used Designed Decorrelated Taggers (DDT) to decorrelate the predictions from the jet mass using a mass-varying threshold for cuts on the output predictions of our model. This procedure helped further cement the finding that jet mass is a particularly good estimator for discovering H->bb jets, and therefore Higgs Boson fields/particles. 
+            </p>
+            <center>
+				<img style = "width: 700px; height:350px; border: 5px solid yellow;" src = 'https://github.com/Bryan-Az/DSC-Capstone-Result-Replication/blob/main/docs/art_particles.jpg?raw=true'>
+			</center>
+            <hr color = 'white'>
+        </div>
+        <div class="intro">
+            <h2>Introduction</h2>
+            <table>
+            	<tr>
+	            	<td>
+	            		<p>Before having more details of our project, some physics terms need to be explained. A jet is a spray of particles that goes in the same direction. And there are tons of jets when we collide the protons like q/g jet, b jet, W/Z -> qq jet and H->bb jet. Due to the properties of jets, it reproduces the Higgs boson more likely. We need to distinguish the H-> bb jet from all the others. As for the importance of Higgs boson particles, it is the first and only spineless elementary particle observed and the building blocks of the universe while it is the mass givers of other particles. Diving deep into the unknown properties of Higgs boson would definitely help us to understand the existence of universe and something relevant to the dark matter.
+						</p>
+	            	</td>
+				</tr>
+				<tr>
+					<td>
+						<center>
+							<img style = "width: 700px; height:350px; border: 5px solid green;" src = 'https://github.com/Bryan-Az/DSC-Capstone-Result-Replication/blob/main/docs/collision.jpg?raw=true'>
+						</center>
+					</td>
+				</tr>
+			</table>
+			<p>The event shown above is a visualization made by the CMS experiment that shows a decay into two photons (dashed yellow lines and green towers).</p>
+        </div>
+        <hr color = 'white'>
+        <div class="data">
+            <h2>Source Data</h2>
+            <table>
+            	<tr>
+	            	<td>
+	            		<p>
+	            			The data collected at CERN (European Organization for Nuclear Research) was gathered by using simulated proton collision events. These events were used to gather information about track, secondary vertex, and jet feature data which could be used to inform the machine learning algorithms which can classify Higgs Bosons as they decay to bottom quark-antiquark pairs.
+						</p>
+	            	</td>
+				</tr>
+				<tr>
+					<td>
+						<center>
+							<img style = "width: 700px; height:350px; border: 5px solid aqua;" src = 'https://github.com/Bryan-Az/DSC-Capstone-Result-Replication/blob/main/docs/bhadron.png?raw=true'>
+						</center>
+					</td>
+				</tr>
+			</table>
+			<p>The diagram above shows the b hadron which we are targeting. The b-hadron decays into particles / other hadrons on the left, after it has already traveled from the collision point. 
+
+			Source: https://profmattstrassler.com/articles-and-posts/particle-physics-basics/the-known-apparently-elementary-particles/jets-the-manifestation-of-quarks-and-gluons/b-tagging-identifying-jets-from-bottom-quarks/</p>
+        </div>
+        <hr color = 'white'>
+        <div class="features">
+            <h2>Features</h2>
+            <div>
+	        	<table style ="background-color: moccasin;">
+	        		<tr>
+		        		<th>Feature Type</th>
+		        		<th>Description</th>	
+	        		</tr>
+	        		<tr>
+	        			<td>Labels</td>
+	        			<td>Labels in the dataset are used to differentiate between H-bb jets and all other jet types resulting from the strong interaction between quarks and gluons  (e.g. quantum chromodynamics, aka QCD).</td>
+	        		</tr>
+	        		<tr>
+	        			<td>Track Features</td>
+	        			<td>Track features in the dataset are properties of tracks (e.g. transverse momentum / maximum relative momentum, number of tracks, maximum signed 3D impact parameter value, etc.). Tracks themselves are simply the paths which the newly created hadrons (resulting from the particle collisions) took as they exited the collision.  </td>
+	        		</tr>
+	        		<tr>
+	        			<td>Secondary Track (SV) Features</td>
+	        			<td>SV Features in the dataset are properties of the decay occurring and jet originating at the secondary vertex (e.g. transverse momentum / maximum relative momentum, number of secondary vertices … etc.). The secondary vertex is the location where a bottom hadron decays into other hadrons; a significant number of hadrons from a jet initiated by the production of a bottom quark come not from the collision point, but from the secondary vertex.</td>
+	        		</tr>
+	        		<tr>
+	        			<td>Jet Features</td>
+	        			<td>Jet features in the dataset are properties of the jet itself, a collection of particles which emanate and collimate from the initial collision point (e.g. transverse momentum / maximum relative momentum, sdmass, mass. … etc. ). The jet itself is the target of classification for our purposes of detecting h->bb jets. </td>
+	        		</tr>
+	        	</table>
+	        </div>
+        </div>
+        <hr color = 'white'>
+        <div class="methods">
+            <h2>Methodology</h2>
+            <h3>Graph Neural Networks</h3>
+            <p>
+            	Graph neural network basically is a type of machine learning which takes or extracts key information from a graph that contains nodes and edges like jets of particles. Based on these information, graph neural networks make predictions. Taking the social relation as an example, the nodes would be individuals and the edges could be the relationships between each individual. 
+            </p>
+            <h3>Designed Decorrelated Tagger (DDT)</h3>
+            <p>
+            	DDT could provide a simple approach to substructure decorrelation that the DDT transform yields a jet substructure discriminant which is decorrelated from the jet mass. (The ATLAS Collaboration 2018) Meanwhile, it could also define a mass-dependent threshold to reduce the impact. Decorrelating the jet mass is useful as the model can learn to distinguish signal from noise using the difference in mass.
+            </p>
+            <table style = "background-color: moccasin;">
+            	<tr>
+            		<th>Jet Mass / QCD Background</th>
+            		<th>Jet Mass / H-bb Jets</th>
+            	</tr>
+            	<tr>
+            		<td><img style = "border: 5px solid black;" src="https://github.com/Bryan-Az/DSC-Capstone-Result-Replication/blob/main/docs/background_mass.jpg?raw=true">
+            		</td>
+            		<td><img style = "border: 5px solid black;" src="https://github.com/Bryan-Az/DSC-Capstone-Result-Replication/blob/main/docs/signal_mass.jpg?raw=true">
+            		</td>
+            	</tr>
+            	<tr>
+            		<td>The figure above shows the background jet mass distribution estimate of our model. The blue curve represents our predictions of H-bb jets as they are, given the distribution when we select 99% true positives. The red curve shows the impact of the DDT procedure of the signal, showing that it removes a majority of the signal, essentially estimating noise / qcd background mass.</td>
+            		<td>The figure above shows the signal jet mass distribution estimate of our model. The blue curve is the same in both figures. The red curve now is a tighter fit on the 'base' or training distribution of h-bb jet mass, and shows lower probabily of detection.</td>
+            	</tr>
+            </table>
+            <h3>GENConv</h3>
+            <p>
+            	GENConv is a model for implementation of GCNs(Graph Convolutional Networks).The model combines information from the regular node and its neighbor by aggregating then updating the node feature by giving the aggregated value. As for regular GCNs, it just gives the information about connected neighbors for updating the node feature. It has a novel generalized aggregation function which could  cover all common sorts of aggregation functions which improves the performance.
+            </p>
+            <h3>EdgeConv</h3>
+            <p>
+            	EdgeConv is the implementation of deep learning models and it acts on graphs dynamically computed in each layer of the model. It incorporates local neighbor information and can be used for learning the global properties. And it helps the model to handle irregularity easily but the major difference between this and other methods is that it captures the local geometric structure while still maintaining its own permutation invariance. Besides that, EdgeConv could generate edge features that describe the relationship between a node and the neighbors and is capable of grouping nodes both in Euclidean space and in semantic space which would be extremely useful for particle physics.
+            </p>
+        </div>
+        <hr color = 'white'>
+        <div class="res">
+            <h2>Summary of Results</h2>
+            <p>After visualizing the ROC curves and comparing the AUC of our GENConv Graph Neural Network to the previous FCNN/DSNN we found an improvement of about 1.2% to last quarters highest-performing model, the Deep Sets Neural Network. However, the improvement was much more when compared to the more basic FCNN, as we saw an improvement of about 9.4%. Figure shown below.
+            </p>
+            <img style = "border: 5px solid purple;" src="https://github.com/Bryan-Az/DSC-Capstone-Result-Replication/blob/main/docs/roc_curve_no_ddt.jpg?raw=true">
+            <p>
+            	Applying the DDT procedure (i.e decorrelating the mass from the signal/qcd background) shows us that results of our model get worse when the influence of mass is removed from the predictions - and the influence is visible across models and the difference maintains the order in terms of performance. Figure shown below.
+            </p>
+            <img style = "border: 5px solid purple;"src="https://github.com/Bryan-Az/DSC-Capstone-Result-Replication/blob/main/docs/roc_curve_ddt_only.jpg?raw=true">
+            <p>We merge the two figures above and provide a combined ROC curve of ablated DDT procedure to easily compare the curves below.</p>
+            <img style = "border: 5px solid purple;" src="https://github.com/Bryan-Az/DSC-Capstone-Result-Replication/blob/main/docs/combined_roc_curve.jpg?raw=true">
+        </div>
+        <hr color = 'white'>
+        <div class="dis">
+        	<h2>Conclusion</h2>
+        	<p>Ultimately, we were able to replicate figures 4, 5, and 8 in the paper "Interaction networks for the identification of boosted H → bb decays" by Duarte et.al. We discovered that Jet mass is a valuable predictor for the Higgs Bosons and that the choice of model is crucial in improving the accuracy. 
+
+        	For example, we found the Deep Sets NN model performs about equally to our fairly simple Graph NN, because the the variable nature of Deep Sets is able to capture the inherent structure of the ROOT / Awkward data provided by CERN / LHC.
+
+        	Further, looking at the jet mass distribution and the effect DDT has on our predictions of it was able to convince us that decorrelating the mass is not a good idea.
+        	</p>
+        	<hr color = 'white'>
+            <h2>Credits</h2>
+            <p>
+            	This project was a lot of hard work, and was difficult for us to conceptualize as none of the students on our team had any background in particle physics. 
+
+            	However, the process of discovering new methods in conducting data analysis by replicating the results in Dr. Javier Duarte's paper was helpful. We have him to thank for providing resources such as providing the graph dataset which was used to transform the raw data into a more usable format, as well as early-stage models (Deep Set, Fully-Connected, Adversarial, and Interaction Neural Network) for inspiration.
+
+            	Our TA Farouk Mohktar was also helpful in providing guidance and clarity on our project.
+            </p>
+        </div>
+        <div class="ref">
+        	<hr color = 'white'>
+            <h2>References</h2>
+            <p>
+            	Duarte, Javier M. “Interaction networks for the identification of boosted H→bb⎯⎯⎯ decays.” Arxiv, 2019, p. 20. Cornell University, https://arxiv.org/abs/1909.12285. Accessed 6 March 2022.            	           	                          
+            </p>
+            <p>Wang, Yue. et. al. "Dynamic Graph CNN for Learning on Point Clouds." Arxiv, 2018, p. 13. Cornell University, https://arxiv.org/abs/1801.07829. Accessed 8 March 2022.
+            </p>
+            <p>
+            	Guohao Li et. al.  "DeeperGCN: All You Need to Train Deeper GCNs." Arxiv, 2020, pg. 16. Cornell University, https://arxiv.org/abs/2006.07739. Accessed 8 March 2022.
+            </p>
+        </div>
+       </center>
+   <script type="text/javascript">(function(){window['__CF$cv$params']={r:'6dd22d806f037d6e',m:'T3x2bpI3w.b8P6ntpMLBvSuKdVjKVkCJmJmzaBv9noU-1644798520-0-AVfdxBNNzWPq3LeoMKd9SxLqBnR5E1ExuQxzpdGTcYsOI5yKEGzHLyLzK7M3ziQJsDw1/D6z/bG9yv3MMAeky+/2lGmY2E++buM5Mr1tsfuh6mCe+L3gdVW5O3jYC7EnZcVjUGsakqXRN00lT+8zGLhDJ9OY3J8Uf2XxM+auqG6Y9ItRXyAgw5U8yoKPZxDa3w==',s:[0xf029476810,0x9b7f038c9b],}})();</script></body>
+</html>
